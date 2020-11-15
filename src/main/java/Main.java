@@ -6,11 +6,9 @@ public class Main {
 
         String subscribeMessage = new SubscribeMessage(channels, products).getMessage();
 
-        MessageParser messageParser = new MessageParser();
-
         ResponseHandler responseHandler = new ResponseHandler();
 
-        WsClientStarter wsClient = new WsClientStarter(destinationUri, subscribeMessage, messageParser, responseHandler);
+        WsClientStarter wsClient = new WsClientStarter(destinationUri, subscribeMessage, responseHandler);
         wsClient.start();
     }
 }

@@ -7,22 +7,19 @@ import java.util.concurrent.TimeUnit;
 public class WsClientStarter {
     private String destinationUri;
 
-    private MessageParser messageParser;
-
     private String subscribeMessage;
 
     private ResponseHandler responseHandler;
 
-    public WsClientStarter(String destinationUri, String subscribeMessage, MessageParser jsonParser, ResponseHandler responseHandler) {
+    public WsClientStarter(String destinationUri, String subscribeMessage, ResponseHandler responseHandler) {
         this.destinationUri = destinationUri;
-        this.messageParser = jsonParser;
         this.subscribeMessage = subscribeMessage;
         this.responseHandler = responseHandler;
     }
 
     public void start() {
         WebSocketClient client = new WebSocketClient();
-        WsClient socket = new WsClient(subscribeMessage, messageParser, responseHandler);
+        WsClient socket = new WsClient(subscribeMessage, responseHandler);
         try
         {
             client.start();

@@ -16,15 +16,13 @@ public class WsClient
     private Session session;
 
     private String subscribeMessage;
-    private MessageParser messageParser;
     private ResponseHandler responseHandler;
 
     private final CountDownLatch closeLatch;
 
-    public WsClient(String subscribeMessage, MessageParser jsonParser, ResponseHandler responseHandler)
+    public WsClient(String subscribeMessage, ResponseHandler responseHandler)
     {
         this.subscribeMessage = subscribeMessage;
-        this.messageParser = jsonParser;
         this.responseHandler = responseHandler;
 
         this.closeLatch = new CountDownLatch(1);
@@ -38,7 +36,6 @@ public class WsClient
     @OnWebSocketClose
     public void onClose(int statusCode, String reason)
     {
-        System.out.printf("Connection closed: %d - %s%n", statusCode, reason);
         this.session = null;
         this.closeLatch.countDown();
     }
@@ -46,7 +43,6 @@ public class WsClient
     @OnWebSocketConnect
     public void onConnect(Session session)
     {
-        System.out.println("Got connect: " + session);
         this.session = session;
         try
         {
@@ -63,13 +59,12 @@ public class WsClient
     @OnWebSocketMessage
     public void onMessage(String msg)
     {
-        responseHandler.getMessage(messageParser.parseMessage(msg));
+        responseHandler.setMessage(msg);
     }
 
     @OnWebSocketError
-    public void onError(Throwable cause)
+    public void onError(Throwable t)
     {
-        System.out.println("WebSocket Error: ");
-        cause.printStackTrace(System.out);
+        t.printStackTrace();
     }
 }
