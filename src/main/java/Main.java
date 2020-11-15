@@ -6,9 +6,9 @@ public class Main {
 
         String subscribeMessage = new SubscribeMessage(channels, products).getMessage();
 
-        MessageParser messageParser = new TickerMessageParser();
+        MessageParser messageParser = new MessageParser();
 
-        ResponseHandler responseHandler = new SystemPrintResponseHandler();
+        ResponseHandler responseHandler = new ResponseHandler();
 
         WsClientStarter wsClient = new WsClientStarter(destinationUri, subscribeMessage, messageParser, responseHandler);
         wsClient.start();
